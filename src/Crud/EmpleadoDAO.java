@@ -28,7 +28,7 @@ public class EmpleadoDAO implements IDAO<Empleado> {
     public boolean ingresar(Empleado pojo) {
         String insert = "INSERT INTO empleados (id,nombre,direccion,telefono) VALUES (?,?,?,?)";
         try {
-            con.getConnection().prepareStatement(insert);
+            sentencia=con.getInstance().getConnection().prepareStatement(insert);
             sentencia.setLong(1, pojo.getId());
             sentencia.setString(2, pojo.getNombre());
             sentencia.setString(3, pojo.getDireccion());
@@ -48,9 +48,9 @@ public class EmpleadoDAO implements IDAO<Empleado> {
      */
     @Override
     public boolean actualizar(Empleado pojo) {
-        String update = "UPDATE empleados SET nombre=?, direccion=?, telefono=? WHERE id=?";
+        String insert = "UPDATE empleados SET nombre=?, direccion=?, telefono=? WHERE id=?";
         try {
-            con.getConnection().prepareStatement(update);
+            sentencia=con.getInstance().getConnection().prepareStatement(insert);
             sentencia.setString(1, pojo.getNombre());
             sentencia.setString(2, pojo.getDireccion());
             sentencia.setString(3, pojo.getTelefono());
@@ -70,9 +70,9 @@ public class EmpleadoDAO implements IDAO<Empleado> {
      */
     @Override
     public boolean eliminar(Long id) {
-        String delete = "DELETE FROM empleados WHERE id=?";
+        String insert = "DELETE FROM empleados WHERE id=?";
         try {
-            con.getConnection().prepareStatement(delete);
+            sentencia=con.getInstance().getConnection().prepareStatement(insert);
             sentencia.setLong(1, id);
             sentencia.execute();
             return true;
@@ -89,9 +89,9 @@ public class EmpleadoDAO implements IDAO<Empleado> {
      */
     @Override
     public Empleado mostrarById(Long id) {
-        String selectAll = "SELECT * FROM empleados WHERE id =?";
+        String insert = "SELECT * FROM empleados WHERE id =?";
         try {
-            con.getConnection().prepareStatement(selectAll);
+            sentencia=con.getInstance().getConnection().prepareStatement(insert);
             sentencia.setLong(1, id);
             rs = sentencia.executeQuery();
             if (rs.next()) {
@@ -117,10 +117,10 @@ public class EmpleadoDAO implements IDAO<Empleado> {
      */
     @Override
     public List<Empleado> mostrarAll() {
-        String selectAll = "SELECT * FROM empleados ORDER BY id";
+        String insert = "SELECT * FROM empleados ORDER BY id";
         List<Empleado> lista = new ArrayList<>();
         try {
-            con.getConnection().prepareStatement(selectAll);
+            sentencia=con.getInstance().getConnection().prepareStatement(insert);
             rs = sentencia.executeQuery();
             while (rs.next()) {
                 Empleado p = new Empleado();

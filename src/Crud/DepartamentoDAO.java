@@ -28,7 +28,7 @@ public class DepartamentoDAO implements IDAO<Departamento> {
     public boolean ingresar(Departamento pojo) {
         String insert = "INSERT INTO departamentos (id,nombre) VALUES (?,?)";
         try {
-            con.getConnection().prepareStatement(insert);
+            sentencia=con.getInstance().getConnection().prepareStatement(insert);
             sentencia.setLong(1, pojo.getId());
             sentencia.setString(2, pojo.getNombre());
             sentencia.execute();
@@ -47,9 +47,9 @@ public class DepartamentoDAO implements IDAO<Departamento> {
      */
     @Override
     public boolean actualizar(Departamento pojo) {
-        String update = "UPDATE departamentos SET nombre=? WHERE id=?";
+        String insert = "UPDATE departamentos SET nombre=? WHERE id=?";
         try {
-            con.getConnection().prepareStatement(update);
+            sentencia=con.getInstance().getConnection().prepareStatement(insert);
             sentencia.setString(1, pojo.getNombre());
             sentencia.setLong(2, pojo.getId());
             sentencia.execute();
@@ -67,9 +67,9 @@ public class DepartamentoDAO implements IDAO<Departamento> {
      */
     @Override
     public boolean eliminar(Long id) {
-        String delete = "DELETE FROM departamentos WHERE id=?";
+        String insert = "DELETE FROM departamentos WHERE id=?";
         try {
-            con.getConnection().prepareStatement(delete);
+            sentencia=con.getInstance().getConnection().prepareStatement(insert);
             sentencia.setLong(1, id);
             sentencia.execute();
             return true;
@@ -86,9 +86,9 @@ public class DepartamentoDAO implements IDAO<Departamento> {
      */
     @Override
     public Departamento mostrarById(Long id) {
-        String selectAll = "SELECT * FROM departamentos WHERE id =?";
+        String insert = "SELECT * FROM departamentos WHERE id =?";
         try {
-            con.getConnection().prepareStatement(selectAll);
+            sentencia=con.getInstance().getConnection().prepareStatement(insert);
             sentencia.setLong(1, id);
             rs = sentencia.executeQuery();
             if (rs.next()) {
@@ -112,10 +112,10 @@ public class DepartamentoDAO implements IDAO<Departamento> {
      */
     @Override
     public List<Departamento> mostrarAll() {
-        String selectAll = "SELECT * FROM departamentos ORDER BY id";
+        String insert = "SELECT * FROM departamentos ORDER BY id";
         List<Departamento> listaPer = new ArrayList<>();
         try {
-            con.getConnection().prepareStatement(selectAll);
+            sentencia=con.getInstance().getConnection().prepareStatement(insert);
             rs = sentencia.executeQuery();
             while (rs.next()) {
                 Departamento p = new Departamento();
