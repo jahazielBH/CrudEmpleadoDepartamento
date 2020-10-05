@@ -1,4 +1,3 @@
-
 package Crud;
 
 import java.util.ArrayList;
@@ -6,34 +5,31 @@ import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-
 public class GuiDAO_Dep extends javax.swing.JFrame {
-    
-    private DepartamentoDAO departamentoDAO;
+
     private Departamento departamento;
-    
+    private IDAO factory;
 
     public GuiDAO_Dep() {
         initComponents();
-        System.out.println("test");
-        departamentoDAO = new DepartamentoDAO();
+        factory = FactoryDAO.create(FactoryDAO.TypeDAO.DEPARTAMENTO);
     }
-    
-    public void limpiar(){
+
+    public void limpiar() {
         txtClave.setText("");
         txtNombre.setText("");
     }
-    
+
     public String Recorrer() {
         String listaPersonas = "Datos: \n ";
         List<Departamento> lista = new ArrayList<Departamento>();
-        lista = departamentoDAO.mostrarAll();
+        lista = factory.mostrarAll();
         Iterator<Departamento> itr = lista.iterator();
         while (itr.hasNext()) {
-        departamento= itr.next();
-        listaPersonas += " ID:" + departamento.getId()
-                + " Nombre:" + departamento.getNombre()
-                + " \n ";
+            departamento = itr.next();
+            listaPersonas += " ID:" + departamento.getId()
+                    + " Nombre:" + departamento.getNombre()
+                    + " \n ";
         }
         return listaPersonas;
     }
@@ -172,7 +168,7 @@ public class GuiDAO_Dep extends javax.swing.JFrame {
         departamento = new Departamento();
         departamento.setId(Long.parseLong(txtClave.getText()));
         departamento.setNombre(txtNombre.getText());
-        departamentoDAO.ingresar(departamento);
+        factory.ingresar(departamento);
         limpiar();
     }//GEN-LAST:event_btoGuardarActionPerformed
 
@@ -180,26 +176,24 @@ public class GuiDAO_Dep extends javax.swing.JFrame {
         departamento = new Departamento();
         departamento.setId(Long.parseLong(txtClave.getText()));
         departamento.setNombre(txtNombre.getText());
-        departamentoDAO.actualizar(departamento);
+        factory.actualizar(departamento);
         limpiar();
     }//GEN-LAST:event_btoActualizarActionPerformed
 
     private void btoEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoEliminarActionPerformed
-          departamentoDAO.eliminar(Long.parseLong(txtClave.getText()));
-         limpiar();
-        
+        factory.eliminar(Long.parseLong(txtClave.getText()));
+        limpiar();
     }//GEN-LAST:event_btoEliminarActionPerformed
 
     private void btoBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoBuscarActionPerformed
-
-        departamento = departamentoDAO.mostrarById(Long.parseLong(txtClave.getText()));
-        if(departamento!=null){
-         String resul = " ID:" +  String.valueOf(departamento.getId())
-                + " Nombre:" + departamento.getNombre()
-                + " \n ";
-        mostrar.setText(resul);
-        }else{
-            JOptionPane.showMessageDialog(null,"No se encontro este departamento");
+        departamento = (Departamento) factory.mostrarById(Long.parseLong(txtClave.getText()));
+        if (departamento != null) {
+            String resul = " ID:" + String.valueOf(departamento.getId())
+                    + " Nombre:" + departamento.getNombre()
+                    + " \n ";
+            mostrar.setText(resul);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontro este departamento");
         }
         limpiar();
     }//GEN-LAST:event_btoBuscarActionPerformed
@@ -208,7 +202,6 @@ public class GuiDAO_Dep extends javax.swing.JFrame {
         mostrar.setText(Recorrer());
     }//GEN-LAST:event_btoMostrarActionPerformed
 
-   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

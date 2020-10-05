@@ -1,4 +1,3 @@
-
 package Crud;
 
 import java.sql.PreparedStatement;
@@ -15,24 +14,15 @@ import java.util.logging.Logger;
  */
 public class DepartamentoDAO implements IDAO<Departamento> {
 
-    public DepartamentoDAO() {
-    }
-    
-    ConexionDB con= ConexionDB.getInstance();
-    ResultSet rs;
-    Departamento depa= new Departamento();
+    private ConexionDB con;
+    private ResultSet rs;
+    Departamento depa = new Departamento();
 
     @Override
     public boolean ingresar(Departamento Pojo) {
-            //       String sql="insert into persona (clave,nombre,direccion,telefono) values "
-//                + "('" + pojo.getClave() + "','" + pojo.getNombre() + "','" + pojo.getDireccion() + "','" +
-//                pojo.getTelefono() + "')"; 
-//        con.execute(sql);
-//        return true;
-        
- String insert = "INSERT INTO departamentos (id,nombre) VALUES (?,?)";
+        String insert = "INSERT INTO departamentos (id,nombre) VALUES (?,?)";
         try {
-            try (PreparedStatement sentencia = ConexionDB.getInstance().getConnection().prepareStatement(insert)) {
+            try (PreparedStatement sentencia = con.getConnection().prepareStatement(insert)) {
                 Long id = Pojo.getId();
                 String nombre = Pojo.getNombre();
                 sentencia.setLong(1, id);
@@ -48,15 +38,9 @@ public class DepartamentoDAO implements IDAO<Departamento> {
 
     @Override
     public boolean actualizar(Departamento Pojo) {
-                //        String sql = "update persona set nombre= '" + pojo.getNombre()
-//                + "',direccion= '" + pojo.getDireccion()
-//                + "',telefono= '" + pojo.getTelefono()
-//                + "' where clave = '" + pojo.getClave() + "'";
-//        con.execute(sql);
-//        return true;
-  String update = "UPDATE departamentos SET nombre=? WHERE id=?";
+        String update = "UPDATE departamentos SET nombre=? WHERE id=?";
         try {
-            try (PreparedStatement sentencia = ConexionDB.getInstance().getConnection().prepareStatement(update)) {
+            try (PreparedStatement sentencia = con.getConnection().prepareStatement(update)) {
                 Long id = Pojo.getId();
                 String nombre = Pojo.getNombre();
                 sentencia.setString(1, nombre);
@@ -72,12 +56,9 @@ public class DepartamentoDAO implements IDAO<Departamento> {
 
     @Override
     public boolean eliminar(Long id) {
-        //String sql = "DELETE FROM persona WHERE clave =" + "'" + pojo.getClave() + "'";
-//con.execute(sql);
-// return true;
-   String delete = "DELETE FROM departamentos WHERE id=?";
+        String delete = "DELETE FROM departamentos WHERE id=?";
         try {
-            try (PreparedStatement sentencia = ConexionDB.getInstance().getConnection().prepareStatement(delete)) {
+            try (PreparedStatement sentencia = con.getConnection().prepareStatement(delete)) {
                 sentencia.setLong(1, id);
                 sentencia.execute();
             }
@@ -90,21 +71,20 @@ public class DepartamentoDAO implements IDAO<Departamento> {
 
     @Override
     public Departamento mostrarById(Long id) {
-         ResultSet rs;
         String selectAll = "SELECT * FROM departamentos WHERE id =?";
         try {
-            PreparedStatement sentencia = ConexionDB.getInstance().getConnection().prepareStatement(selectAll);
+            PreparedStatement sentencia = con.getConnection().prepareStatement(selectAll);
             sentencia.setLong(1, id);
             rs = sentencia.executeQuery();
             if (rs.next()) {
                 Departamento p = new Departamento();
                 p.setId(rs.getLong(1));
                 p.setNombre(rs.getString(2));
-                depa=p;
-            }else{
-                
-                depa=null;
-                    }
+                depa = p;
+            } else {
+
+                depa = null;
+            }
         } catch (SQLException ex) {
             Logger.getLogger(EmpleadoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -113,11 +93,10 @@ public class DepartamentoDAO implements IDAO<Departamento> {
 
     @Override
     public List<Departamento> mostrarAll() {
-        ResultSet rs;
         String selectAll = "SELECT * FROM departamentos ORDER BY id";
         List<Departamento> listaPer = new ArrayList<>();
         try {
-            PreparedStatement sentencia = ConexionDB.getInstance().getConnection().prepareStatement(selectAll);
+            PreparedStatement sentencia = con.getConnection().prepareStatement(selectAll);
             rs = sentencia.executeQuery();
             while (rs.next()) {
                 Departamento p = new Departamento();
@@ -131,5 +110,5 @@ public class DepartamentoDAO implements IDAO<Departamento> {
         }
         return listaPer;
     }
-    
+
 }

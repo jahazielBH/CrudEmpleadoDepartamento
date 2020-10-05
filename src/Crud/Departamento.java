@@ -1,4 +1,3 @@
-
 package Crud;
 
 /**
@@ -6,6 +5,7 @@ package Crud;
  * @author gabrielhs
  */
 public class Departamento {
+
     private Long id;
     private String nombre;
 
@@ -24,5 +24,5 @@ public class Departamento {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
+
 }

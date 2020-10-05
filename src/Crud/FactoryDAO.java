@@ -1,21 +1,24 @@
-
 package Crud;
 
 /**
  *
  * @author gabrielhs
- * @param 
+ * @param
  */
-public class FactoryDAO  {
-    public enum TypeDAO {EMPLEADO,DEPARTAMENTO};
-    public static IDAO create (TypeDAO t){
+public class FactoryDAO {
+
+    public enum TypeDAO {
+        EMPLEADO, DEPARTAMENTO
+    };
+
+    public static IDAO create(TypeDAO t) {
         IDAO dao = null;
-        switch (t){
+        switch (t) {
             case EMPLEADO:
-                dao=new EmpleadoDAO();
+                dao = new EmpleadoDAO();
                 break;
             case DEPARTAMENTO:
-                dao=new DepartamentoDAO();
+                dao = new DepartamentoDAO();
                 break;
         }
         return dao;
