@@ -8,23 +8,31 @@ import javax.swing.JOptionPane;
 
 
 public class GuiDAO_Dep extends javax.swing.JFrame {
+    
+    private DepartamentoDAO departamentoDAO;
+    private Departamento departamento;
+    
 
     public GuiDAO_Dep() {
         initComponents();
         System.out.println("test");
-        
+        departamentoDAO = new DepartamentoDAO();
+    }
+    
+    public void limpiar(){
+        txtClave.setText("");
+        txtNombre.setText("");
     }
     
     public String Recorrer() {
         String listaPersonas = "Datos: \n ";
         List<Departamento> lista = new ArrayList<Departamento>();
-        DepartamentoDAO e = new DepartamentoDAO();
-        lista = e.mostrarAll();
+        lista = departamentoDAO.mostrarAll();
         Iterator<Departamento> itr = lista.iterator();
         while (itr.hasNext()) {
-        Departamento per = itr.next();
-        listaPersonas += " ID:" + per.getId()
-                + " Nombre:" + per.getNombre()
+        departamento= itr.next();
+        listaPersonas += " ID:" + departamento.getId()
+                + " Nombre:" + departamento.getNombre()
                 + " \n ";
         }
         return listaPersonas;
@@ -161,44 +169,39 @@ public class GuiDAO_Dep extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btoGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoGuardarActionPerformed
-        Departamento dep = new Departamento();
-        dep.setId(Long.parseLong(txtClave.getText()));
-        dep.setNombre(txtNombre.getText());
-        DepartamentoDAO e = new DepartamentoDAO();
-        e.ingresar(dep);
-        txtClave.setText("");
-        txtNombre.setText("");
+        departamento = new Departamento();
+        departamento.setId(Long.parseLong(txtClave.getText()));
+        departamento.setNombre(txtNombre.getText());
+        departamentoDAO.ingresar(departamento);
+        limpiar();
     }//GEN-LAST:event_btoGuardarActionPerformed
 
     private void btoActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoActualizarActionPerformed
-        Departamento dep = new Departamento();
-        dep.setId(Long.parseLong(txtClave.getText()));
-        dep.setNombre(txtNombre.getText());
-        DepartamentoDAO e = new DepartamentoDAO();
-        e.actualizar(dep);
-        txtClave.setText("");
-        txtNombre.setText("");
+        departamento = new Departamento();
+        departamento.setId(Long.parseLong(txtClave.getText()));
+        departamento.setNombre(txtNombre.getText());
+        departamentoDAO.actualizar(departamento);
+        limpiar();
     }//GEN-LAST:event_btoActualizarActionPerformed
 
     private void btoEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoEliminarActionPerformed
-        DepartamentoDAO e = new DepartamentoDAO();
-        e.eliminar(Long.parseLong(txtClave.getText()));
-         txtClave.setText("");
+          departamentoDAO.eliminar(Long.parseLong(txtClave.getText()));
+         limpiar();
         
     }//GEN-LAST:event_btoEliminarActionPerformed
 
     private void btoBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoBuscarActionPerformed
-        DepartamentoDAO e = new DepartamentoDAO();
-        Departamento emp = e.mostrarById(Long.parseLong(txtClave.getText()));
-        if(emp!=null){
-         String resul = " ID:" +  String.valueOf(emp.getId())
-                + " Nombre:" + emp.getNombre()
+
+        departamento = departamentoDAO.mostrarById(Long.parseLong(txtClave.getText()));
+        if(departamento!=null){
+         String resul = " ID:" +  String.valueOf(departamento.getId())
+                + " Nombre:" + departamento.getNombre()
                 + " \n ";
         mostrar.setText(resul);
         }else{
             JOptionPane.showMessageDialog(null,"No se encontro este departamento");
         }
-        
+        limpiar();
     }//GEN-LAST:event_btoBuscarActionPerformed
 
     private void btoMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoMostrarActionPerformed

@@ -9,10 +9,22 @@ import javax.swing.JOptionPane;
 
 public class GuiDAO_Emp extends javax.swing.JFrame {
 
+    EmpleadoDAO empleadoDAO; 
+    private Empleado empleado;
+    private IDAO factory;
+    
     public GuiDAO_Emp() {
         initComponents();
         System.out.println("test");
+        empleadoDAO =  new EmpleadoDAO();
+        factory = FactoryDAO.create(FactoryDAO.TypeDAO.EMPLEADO);
         
+    }
+    public void limpiar(){
+        txtClave.setText("");
+        txtNombre.setText("");
+        txtDireccion.setText("");
+        txtTelefono.setText("");
     }
     
     public String Recorrer() {
@@ -22,11 +34,11 @@ public class GuiDAO_Emp extends javax.swing.JFrame {
         lista = e.mostrarAll();
         Iterator<Empleado> itr = lista.iterator();
         while (itr.hasNext()) {
-        Empleado per = itr.next();
-        listaPersonas += " ID:" + per.getId()
-                + " Nombre:" + per.getNombre()
-                + " Direccion:" + per.getDireccion()
-                + " Telefono:" + per.getTelefono()
+        empleado = itr.next();
+        listaPersonas += " ID:" + empleado.getId()
+                + " Nombre:" + empleado.getNombre()
+                + " Direccion:" + empleado.getDireccion()
+                + " Telefono:" + empleado.getTelefono()
                 + " \n ";
         }
         return listaPersonas;
@@ -185,55 +197,48 @@ public class GuiDAO_Emp extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btoGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoGuardarActionPerformed
-        Empleado emp = new Empleado();
-        emp.setId(Long.parseLong(txtClave.getText()));
-        emp.setNombre(txtNombre.getText());
-        emp.setDireccion(txtDireccion.getText());
-        emp.setTelefono(txtTelefono.getText());
-        EmpleadoDAO e = new EmpleadoDAO();
-        e.ingresar(emp);
-        
-        txtClave.setText("");
-        txtNombre.setText("");
-        txtDireccion.setText("");
-        txtTelefono.setText("");
+//        factory = FactoryDAO.create(FactoryDAO.TypeDAO.EMPLEADO);
+        empleado = new Empleado();
+        empleado.setId(Long.parseLong(txtClave.getText()));
+        empleado.setNombre(txtNombre.getText());
+        empleado.setDireccion(txtDireccion.getText());
+        empleado.setTelefono(txtTelefono.getText());
+        factory.ingresar(empleado);     
+        limpiar();
     }//GEN-LAST:event_btoGuardarActionPerformed
 
     private void btoActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoActualizarActionPerformed
-        Empleado emp = new Empleado();
-        emp.setId(Long.parseLong(txtClave.getText()));
-        emp.setNombre(txtNombre.getText());
-        emp.setDireccion(txtDireccion.getText());
-        emp.setTelefono(txtTelefono.getText());
-        EmpleadoDAO e = new EmpleadoDAO();
-        e.actualizar(emp);
-        txtClave.setText("");
-        txtNombre.setText("");
-        txtDireccion.setText("");
-        txtTelefono.setText("");
+        empleado = new Empleado();
+        empleado.setId(Long.parseLong(txtClave.getText()));
+        empleado.setNombre(txtNombre.getText());
+        empleado.setDireccion(txtDireccion.getText());
+        empleado.setTelefono(txtTelefono.getText());
+    
+        factory.actualizar(empleado);
+        limpiar();
     }//GEN-LAST:event_btoActualizarActionPerformed
 
     private void btoEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoEliminarActionPerformed
-        EmpleadoDAO e = new EmpleadoDAO();
-        e.eliminar(Long.parseLong(txtClave.getText()));
-         txtClave.setText("");
+       
+        factory.eliminar(Long.parseLong(txtClave.getText()));
+        limpiar();
         
     }//GEN-LAST:event_btoEliminarActionPerformed
 
     private void btoBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoBuscarActionPerformed
-        EmpleadoDAO e = new EmpleadoDAO();
-        Empleado emp = e.mostrarById(Long.parseLong(txtClave.getText()));
-        if(emp!=null){
-         String resul = " ID:" +  String.valueOf(emp.getId())
-                + " Nombre:" + emp.getNombre()
-                + " Direccion:" + emp.getDireccion()
-                + " Telefono:" + emp.getTelefono()
+       
+        empleado =empleadoDAO.mostrarById(Long.parseLong(txtClave.getText()));
+        if(empleado!=null){
+         String resul = " ID:" +  String.valueOf(empleado.getId())
+                + " Nombre:" + empleado.getNombre()
+                + " Direccion:" + empleado.getDireccion()
+                + " Telefono:" + empleado.getTelefono()
                 + " \n ";
         mostrar.setText(resul);
         }else{
             JOptionPane.showMessageDialog(null,"No se encontro este usuario");
         }
-        
+        limpiar();
     }//GEN-LAST:event_btoBuscarActionPerformed
 
     private void btoMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoMostrarActionPerformed
