@@ -118,7 +118,7 @@ public class EmpleadoDAO implements IDAO<Empleado> {
     @Override
     public List<Empleado> mostrarAll() {
         String selectAll = "SELECT * FROM empleados ORDER BY id";
-        List<Empleado> listaPer = new ArrayList<>();
+        List<Empleado> lista = new ArrayList<>();
         try {
             con.getConnection().prepareStatement(selectAll);
             rs = sentencia.executeQuery();
@@ -128,11 +128,11 @@ public class EmpleadoDAO implements IDAO<Empleado> {
                 p.setNombre(rs.getString(2));
                 p.setDireccion(rs.getString(3));
                 p.setTelefono(rs.getString(4));
-                listaPer.add(p);
+                lista.add(p);
             }
         } catch (SQLException ex) {
             Logger.getLogger(EmpleadoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return listaPer;
+        return lista;
     }
 }
