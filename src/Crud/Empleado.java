@@ -1,17 +1,15 @@
 package Crud;
 
-
-
-
 /**
  *
  * @author gabrielhs, jahaziel y david
  */
 public class Empleado {
-private Long id;
-private String nombre;
-private String direccion;
-private String telefono;
+
+    private Long id;
+    private String nombre;
+    private String direccion;
+    private String telefono;
 
     public Long getId() {
         return id;
@@ -44,7 +42,5 @@ private String telefono;
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-
-   
 
 }

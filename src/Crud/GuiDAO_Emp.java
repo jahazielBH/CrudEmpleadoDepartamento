@@ -1,4 +1,3 @@
-
 package Crud;
 
 import java.util.ArrayList;
@@ -6,40 +5,35 @@ import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-
 public class GuiDAO_Emp extends javax.swing.JFrame {
 
-    EmpleadoDAO empleadoDAO; 
     private Empleado empleado;
     private IDAO factory;
-    
+
     public GuiDAO_Emp() {
         initComponents();
-        System.out.println("test");
-        empleadoDAO =  new EmpleadoDAO();
         factory = FactoryDAO.create(FactoryDAO.TypeDAO.EMPLEADO);
-        
     }
-    public void limpiar(){
+
+    public void limpiar() {
         txtClave.setText("");
         txtNombre.setText("");
         txtDireccion.setText("");
         txtTelefono.setText("");
     }
-    
+
     public String Recorrer() {
         String listaPersonas = "Datos: \n ";
         List<Empleado> lista = new ArrayList<Empleado>();
-        EmpleadoDAO e = new EmpleadoDAO();
-        lista = e.mostrarAll();
+        lista = factory.mostrarAll();
         Iterator<Empleado> itr = lista.iterator();
         while (itr.hasNext()) {
-        empleado = itr.next();
-        listaPersonas += " ID:" + empleado.getId()
-                + " Nombre:" + empleado.getNombre()
-                + " Direccion:" + empleado.getDireccion()
-                + " Telefono:" + empleado.getTelefono()
-                + " \n ";
+            empleado = itr.next();
+            listaPersonas += " ID:" + empleado.getId()
+                    + " Nombre:" + empleado.getNombre()
+                    + " Direccion:" + empleado.getDireccion()
+                    + " Telefono:" + empleado.getTelefono()
+                    + " \n ";
         }
         return listaPersonas;
     }
@@ -197,13 +191,12 @@ public class GuiDAO_Emp extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btoGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoGuardarActionPerformed
-//        factory = FactoryDAO.create(FactoryDAO.TypeDAO.EMPLEADO);
         empleado = new Empleado();
         empleado.setId(Long.parseLong(txtClave.getText()));
         empleado.setNombre(txtNombre.getText());
         empleado.setDireccion(txtDireccion.getText());
         empleado.setTelefono(txtTelefono.getText());
-        factory.ingresar(empleado);     
+        factory.ingresar(empleado);
         limpiar();
     }//GEN-LAST:event_btoGuardarActionPerformed
 
@@ -213,30 +206,27 @@ public class GuiDAO_Emp extends javax.swing.JFrame {
         empleado.setNombre(txtNombre.getText());
         empleado.setDireccion(txtDireccion.getText());
         empleado.setTelefono(txtTelefono.getText());
-    
+
         factory.actualizar(empleado);
         limpiar();
     }//GEN-LAST:event_btoActualizarActionPerformed
 
     private void btoEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoEliminarActionPerformed
-       
         factory.eliminar(Long.parseLong(txtClave.getText()));
         limpiar();
-        
     }//GEN-LAST:event_btoEliminarActionPerformed
 
     private void btoBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoBuscarActionPerformed
-       
-        empleado =empleadoDAO.mostrarById(Long.parseLong(txtClave.getText()));
-        if(empleado!=null){
-         String resul = " ID:" +  String.valueOf(empleado.getId())
-                + " Nombre:" + empleado.getNombre()
-                + " Direccion:" + empleado.getDireccion()
-                + " Telefono:" + empleado.getTelefono()
-                + " \n ";
-        mostrar.setText(resul);
-        }else{
-            JOptionPane.showMessageDialog(null,"No se encontro este usuario");
+        empleado = (Empleado) factory.mostrarById(Long.parseLong(txtClave.getText()));
+        if (empleado != null) {
+            String resul = " ID:" + String.valueOf(empleado.getId())
+                    + " Nombre:" + empleado.getNombre()
+                    + " Direccion:" + empleado.getDireccion()
+                    + " Telefono:" + empleado.getTelefono()
+                    + " \n ";
+            mostrar.setText(resul);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontro este usuario");
         }
         limpiar();
     }//GEN-LAST:event_btoBuscarActionPerformed
@@ -245,7 +235,6 @@ public class GuiDAO_Emp extends javax.swing.JFrame {
         mostrar.setText(Recorrer());
     }//GEN-LAST:event_btoMostrarActionPerformed
 
-   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
