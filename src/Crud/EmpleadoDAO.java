@@ -135,5 +135,4 @@ public class EmpleadoDAO implements IDAO<Empleado> {
         }
         return listaPer;
     }
-
 }
