@@ -212,10 +212,8 @@ public class GuiDAO_Emp extends javax.swing.JFrame {
     }//GEN-LAST:event_btoActualizarActionPerformed
 
     private void btoEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoEliminarActionPerformed
-
         factory.eliminar(Long.parseLong(txtClave.getText()));
         limpiar();
-
     }//GEN-LAST:event_btoEliminarActionPerformed
 
     private void btoBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoBuscarActionPerformed

@@ -16,23 +16,24 @@ public class EmpleadoDAO implements IDAO<Empleado> {
 
     private ConexionDB con;
     private ResultSet rs;
+    private PreparedStatement sentencia;
     Empleado emple = new Empleado();
 
+    /**
+     *
+     * @param pojo
+     * @return
+     */
     @Override
-    public boolean ingresar(Empleado Pojo) {
+    public boolean ingresar(Empleado pojo) {
         String insert = "INSERT INTO empleados (id,nombre,direccion,telefono) VALUES (?,?,?,?)";
         try {
-            try (PreparedStatement sentencia = ConexionDB.getInstance().getConnection().prepareStatement(insert)) {
-                Long id = Pojo.getId();
-                String nombre = Pojo.getNombre();
-                String direccion = Pojo.getDireccion();
-                String telefono = Pojo.getTelefono();
-                sentencia.setLong(1, id);
-                sentencia.setString(2, nombre);
-                sentencia.setString(3, direccion);
-                sentencia.setString(4, telefono);
-                sentencia.execute();
-            }
+            con.getConnection().prepareStatement(insert);
+            sentencia.setLong(1, pojo.getId());
+            sentencia.setString(2, pojo.getNombre());
+            sentencia.setString(3, pojo.getDireccion());
+            sentencia.setString(4, pojo.getTelefono());
+            sentencia.execute();
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(EmpleadoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -40,23 +41,21 @@ public class EmpleadoDAO implements IDAO<Empleado> {
         }
     }
 
+    /**
+     *
+     * @param pojo
+     * @return
+     */
     @Override
-    public boolean actualizar(Empleado Pojo) {
+    public boolean actualizar(Empleado pojo) {
         String update = "UPDATE empleados SET nombre=?, direccion=?, telefono=? WHERE id=?";
         try {
-            try (PreparedStatement sentencia = con.getConnection().prepareStatement(update)) {
-                Long id = Pojo.getId();
-                String nombre = Pojo.getNombre();
-                String direccion = Pojo.getDireccion();
-                String telefono = Pojo.getTelefono();
-
-                sentencia.setString(1, nombre);
-                sentencia.setString(2, direccion);
-                sentencia.setString(3, telefono);
-                sentencia.setLong(4, id);
-
-                sentencia.execute();
-            }
+            con.getConnection().prepareStatement(update);
+            sentencia.setString(1, pojo.getNombre());
+            sentencia.setString(2, pojo.getDireccion());
+            sentencia.setString(3, pojo.getTelefono());
+            sentencia.setLong(4, pojo.getId());
+            sentencia.execute();
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(EmpleadoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -64,14 +63,18 @@ public class EmpleadoDAO implements IDAO<Empleado> {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @Override
     public boolean eliminar(Long id) {
         String delete = "DELETE FROM empleados WHERE id=?";
         try {
-            try (PreparedStatement sentencia = con.getConnection().prepareStatement(delete)) {
-                sentencia.setLong(1, id);
-                sentencia.execute();
-            }
+            con.getConnection().prepareStatement(delete);
+            sentencia.setLong(1, id);
+            sentencia.execute();
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(EmpleadoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -79,11 +82,16 @@ public class EmpleadoDAO implements IDAO<Empleado> {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @Override
     public Empleado mostrarById(Long id) {
         String selectAll = "SELECT * FROM empleados WHERE id =?";
         try {
-            PreparedStatement sentencia = con.getConnection().prepareStatement(selectAll);
+            con.getConnection().prepareStatement(selectAll);
             sentencia.setLong(1, id);
             rs = sentencia.executeQuery();
             if (rs.next()) {
@@ -103,12 +111,16 @@ public class EmpleadoDAO implements IDAO<Empleado> {
         return emple;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<Empleado> mostrarAll() {
         String selectAll = "SELECT * FROM empleados ORDER BY id";
         List<Empleado> listaPer = new ArrayList<>();
         try {
-            PreparedStatement sentencia = con.getConnection().prepareStatement(selectAll);
+            con.getConnection().prepareStatement(selectAll);
             rs = sentencia.executeQuery();
             while (rs.next()) {
                 Empleado p = new Empleado();

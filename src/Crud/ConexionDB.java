@@ -20,7 +20,7 @@ public class ConexionDB {
         String urlDatabase = "jdbc:postgresql://localhost:5432/Crud2";
         try {
             Class.forName("org.postgresql.Driver");
-            conn = DriverManager.getConnection(urlDatabase, "postgres", "1999");
+            conn = DriverManager.getConnection(urlDatabase, "postgres", "password");
         } catch (Exception e) {
             System.out.println("Ocurrio un error:" + e.getMessage());
         }
