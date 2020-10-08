@@ -2,15 +2,22 @@ package Crud;
 
 /**
  *
- * @author gabrielhs
- * @param
+ * @author gabrielhs 
  */
 public class FactoryDAO {
 
+    /**
+     *
+     */
     public enum TypeDAO {
         EMPLEADO, DEPARTAMENTO
     };
 
+    /**
+     *
+     * @param t
+     * @return dao
+     */
     public static IDAO create(TypeDAO t) {
         IDAO dao = null;
         switch (t) {
