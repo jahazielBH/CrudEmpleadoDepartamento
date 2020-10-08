@@ -1,14 +1,26 @@
 package Crud;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *
  * @author gabrielhs, jahaziel y david
  */
-public class Empleado {
 
+@Entity
+@Table(name = "empleados")
+public class Empleado {
+@Id
+@Column
     private Long id;
+@Column
     private String nombre;
+@Column
     private String direccion;
+@Column
     private String telefono;
 
     public Long getId() {

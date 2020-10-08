@@ -1,9 +1,13 @@
 package Crud;
 
+import javax.persistence.Entity;
+
 /**
  *
  * @author gabrielhs
  */
+@Entity
+
 public class Departamento {
 
     private Long id;
